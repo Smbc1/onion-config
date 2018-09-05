@@ -1,0 +1,30 @@
+{
+  "name": "onion-config",
+  "version": "0.1.0",
+  "description": "Layer-based config/data manager",
+  "main": "lib/onion.js",
+  "scripts": {
+    "test": "./node_modules/.bin/mocha",
+    "test-docker": "docker-compose up"
+  },
+  "keywords": [
+    "config",
+    "vault",
+    "env",
+    "onion",
+    "microservice"
+  ],
+  "author": "Dmitrii Mozgovoi",
+  "license": "ISC",
+  "dependencies": {
+    "@strikeentco/get": "^1.0.1",
+    "@strikeentco/set": "^1.0.0",
+    "yarl": "^3.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^5.5.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "mocha": "^5.2.0",
+    "should": "^13.2.3"
+  }
+}
