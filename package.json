@@ -14,7 +14,7 @@
     "onion",
     "microservice"
   ],
-  "author": "Dmitrii Mozgovoi",
+  "author": "Dmitrii Mozgovoi <dmitriy.mozgovoy@gmail.com>",
   "license": "ISC",
   "dependencies": {
     "@strikeentco/get": "^1.0.1",
