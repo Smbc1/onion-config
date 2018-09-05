@@ -50,4 +50,4 @@ In-code storage, not recommended. Just stores
 ```
 Loads all keys in `basePath` and stores it. Useful for micro services. Key version support in process.
 
-More on API [here](./API.md)
+### More about API [here](./API.md)
