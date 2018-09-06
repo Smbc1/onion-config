@@ -1,16 +1,21 @@
-# Onion-config: layer-based config/data manager
+# onion-config: layer-based config/data manager
 Provides object storage with layers overlapping and dynamic update support.
 
-## How to use it
+## Usage
+`npm install --save onion-config`
+
 ```javascript
-    const onion = new Onion();
-    await onion.addLayer(new Onion.LAYERS.Env({ prefix: 'some_', json: true, }));
-    await onion.addLayer(new Onion.LAYERS.SimpleObject({
-      foo: {
-        bar: 12345
-      },
-    }));
-    const foo = onion.get('foo.bar').should.be.eql(true);
+const Onion = require('onion-config');
+
+const onion = new Onion();
+await onion.addLayer(new Onion.LAYERS.Env({ prefix: 'some_', json: true, }));
+await onion.addLayer(new Onion.LAYERS.SimpleObject({
+    foo: {
+      bar: 'baz'
+    },
+}));
+onion.get('foo.bar')
+// => 'baz' 
 ```
 
 ## Idea of layers
@@ -22,32 +27,32 @@ Value `.get()` method uses path notation like `some.thing.here` to access inner 
 
 ## Supported config sources
 ### Simple object
-In-code storage, not recommended. Just stores 
+In-code storage, not recommended. Just keeps data from given `data` option.
 ```javascript
-  await onion.addLayer(new Onion.LAYERS.SimpleObject({
-    foo: {
-      bar: 12345
-    },
-  }));
+await onion.addLayer(new Onion.LAYERS.SimpleObject({
+foo: {
+  bar: 12345
+},
+}));
 ```
 
 ### Env parser
-Environment variables parser.
-```javascript
-  await onion.addLayer(new Onion.LAYERS.Env({ prefix: 'some_', json: true, }));
-```
-It parses environment variables, filtering it by `prefix` and supports JSON-serilized values if option is `true`.
+It parses environment variables, filtering it by `prefix` and supports JSON-serialized values if `json` option is `true`.
 In addition, possible to change parsing with `parsingSeparator` option.
+```javascript
+await onion.addLayer(new Onion.LAYERS.Env({ prefix: 'some_', json: true, }));
+```
 
 ### Hashicorp Vault KV2 storage
-In-code storage, not recommended. Just stores 
-```javascript
-  await onion.addLayer(new Onion.LAYERS.Vault({
-    url: env.VAULT_URL,
-    token: env.VAULT_TOKEN,
-    basePath,
-  }));
-```
-Loads all keys in `basePath` and stores it. Useful for micro services. Key version support in process.
+HashiCorp Vault layer, now just with `kv2` engine support.
+Loads all keys in `basePath` and stores it. Useful for micro services. Keys version support in process.
 
-### More about API [here](./API.md)
+```javascript
+await onion.addLayer(new Onion.LAYERS.Vault({
+url: env.VAULT_URL,
+token: env.VAULT_TOKEN,
+basePath,
+}));
+```
+
+### Full API docs is [here](https://github.com/Smbc1/onion-config/blob/master/API.md)

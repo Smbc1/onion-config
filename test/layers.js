@@ -1,6 +1,5 @@
 'use strict';
 
-const should = require('should');
 const Onion = require('../');
 
 const config = {
@@ -22,21 +21,29 @@ describe('Multiple layers', () => {
     await onion.addLayer(new Onion.LAYERS.Env({ prefix: 'some_', json: true, }));
     await onion.addLayer(new Onion.LAYERS.SimpleObject({
       data: {
-        some: {
-          thing: {
-            here: {
-              someObject: {
-                nothingHere: true,
-              },
+        some: {},
+      },
+    }));
+    const overlapping = {
+      some: {
+        thing: {
+          here: {
+            someObject: {
+              nothingHere: true,
             },
           },
         },
       },
+    };
+    await onion.addLayer(new Onion.LAYERS.SimpleObject({
+      data: overlapping,
     }));
+
     onion.get('some.thing.here.someObject.nothingHere').should.be.eql(true);
+    onion.get().should.be.eql(overlapping);
   });
 
-  it('should set with path and merge it on get', async () => {
+  it('should set with path and merge it with path access', async () => {
     const onion = new Onion();
     await onion.addLayer(new Onion.LAYERS.Env({ prefix: 'some_', json: true, }));
     const so = new Onion.LAYERS.SimpleObject();
