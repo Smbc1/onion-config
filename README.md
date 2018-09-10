@@ -8,14 +8,17 @@ Provides object storage with layers overlapping and dynamic update support.
 const Onion = require('onion-config');
 
 const onion = new Onion();
+// ENV contains value like some_foo = '{bar: 12345}'
 await onion.addLayer(new Onion.LAYERS.Env({ prefix: 'some_', json: true, }));
+onion.get('foo.bar'); // => '12345'
+
 await onion.addLayer(new Onion.LAYERS.SimpleObject({
-    foo: {
-      bar: 'baz'
-    },
+  foo: {
+    bar: 'baz'
+  },
 }));
-onion.get('foo.bar')
-// => 'baz' 
+onion.get('foo.bar') // => 'baz'
+
 ```
 
 ## Idea of layers
@@ -30,9 +33,9 @@ Value `.get()` method uses path notation like `some.thing.here` to access inner 
 In-code storage, not recommended. Just keeps data from given `data` option.
 ```javascript
 await onion.addLayer(new Onion.LAYERS.SimpleObject({
-foo: {
-  bar: 12345
-},
+  foo: {
+    bar: 12345
+  },
 }));
 ```
 
@@ -49,9 +52,9 @@ Loads all keys in `basePath` and stores it. Useful for micro services. Keys vers
 
 ```javascript
 await onion.addLayer(new Onion.LAYERS.Vault({
-url: env.VAULT_URL,
-token: env.VAULT_TOKEN,
-basePath,
+  url: env.VAULT_URL,
+  token: env.VAULT_TOKEN,
+  basePath,
 }));
 ```
 

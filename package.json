@@ -5,7 +5,8 @@
   "main": "lib/onion.js",
   "scripts": {
     "test": "./node_modules/.bin/mocha",
-    "test-docker": "docker-compose up"
+    "test-docker": "docker-compose up",
+    "docs": "documentation build lib/onion.js -f md > API.md --shallow"
   },
   "keywords": [
     "config",
