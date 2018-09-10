@@ -4,5 +4,5 @@
 * API docs now describes only Onion class
 * Usage added
 * Some test rework
-* Data merge operation fixes (thanks, @strikeentco)
+* Data merge operation fixes (thanks, [@strikeentco](https://github.com/strikeentco))
 * Minor fixes
