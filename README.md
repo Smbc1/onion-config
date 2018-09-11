@@ -13,8 +13,10 @@ await onion.addLayer(new Onion.LAYERS.Env({ prefix: 'some_', json: true, }));
 onion.get('foo.bar'); // => '12345'
 
 await onion.addLayer(new Onion.LAYERS.SimpleObject({
-  foo: {
-    bar: 'baz'
+  data: {
+    foo: {
+        bar: 'baz'
+      },
   },
 }));
 onion.get('foo.bar') // => 'baz'
@@ -33,8 +35,10 @@ Value `.get()` method uses path notation like `some.thing.here` to access inner 
 In-code storage, not recommended. Just keeps data from given `data` option.
 ```javascript
 await onion.addLayer(new Onion.LAYERS.SimpleObject({
-  foo: {
-    bar: 12345
+  data: {
+    foo: {
+      bar: 12345
+    },
   },
 }));
 ```
