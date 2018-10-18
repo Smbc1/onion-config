@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.0
+* Env Layer will not use `prefix` value after parsing config. It will not appear in resulting config structure 
+and used only for filtering while parsing environment.
+
 ## 0.1.3
 * API docs now describes only Onion class
 * Usage added

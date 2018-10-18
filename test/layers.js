@@ -3,48 +3,50 @@
 const Onion = require('../');
 
 const config = {
-  aNumber: 1,
-  aString: 'hello',
-  someObject: {
-    dozen: 12,
-    nothingHere: false,
-  }
+  part1: {
+    aNumber: 510,
+    aString: 'hello',
+  },
+  part2: {
+    bString: 'world',
+  },
+  part3: {
+    someObject: {
+      dozen: 12,
+      nothingHere: false,
+    }
+  },
+  part4: {},
 };
 
 describe('Multiple layers', () => {
   before(() => {
-    process.env.some_thing_here = JSON.stringify(config);
+    process.env.some_part2 = JSON.stringify(config.part2);
+  });
+  after(() => {
+    delete process.env.some_part2;
   });
 
   it('should use multiple layers and merge it', async () => {
     const onion = new Onion();
-    const overlapping = {
-      part1: {
-        thing: {
-          here: {
-            someObject: {
-              nothingHere: true,
-            },
-          },
-        },
-      },
-    };
     const layers = {
-      simple1: new Onion.LAYERS.SimpleObject({
+      simpleLayerBase: new Onion.LAYERS.SimpleObject({
         data: {
-          some: {},
-          part1: {},
+          part1: {
+            aNumber: 13,
+          },
+          part2: {},
+          part3: {},
+          part4: {},
         },
       }),
-      env: new Onion.LAYERS.Env({prefix: 'some_', json: true,}),
-      simple2: new Onion.LAYERS.SimpleObject({ data: overlapping }),
+      simpleLayer1: new Onion.LAYERS.SimpleObject({ data: { part1: config.part1 } }),
+      envLayer2: new Onion.LAYERS.Env({ prefix: 'some_', json: true }),
+      simpleLayer3: new Onion.LAYERS.SimpleObject({ data: { part3: config.part3 } }),
     };
 
     await Promise.all(Object.keys(layers).map(name => onion.addLayer(layers[name])));
-    onion.get('part1').should.be.eql(layers.simple2.data.part1);
-    onion.get('part1').should.be.eql(overlapping.part1);
-    onion.get('some').should.be.eql(layers.env.data.some);
-    onion.get('part1.thing.here.someObject.nothingHere').should.be.eql(true);
+    onion.get().should.be.eql(config);
   });
 
   it('should set with path and merge it with path access', async () => {
@@ -52,8 +54,8 @@ describe('Multiple layers', () => {
     await onion.addLayer(new Onion.LAYERS.Env({ prefix: 'some_', json: true, }));
     const so = new Onion.LAYERS.SimpleObject();
     await onion.addLayer(so);
-    so.set('some.thing.here.someObject', { nothingHere: true });
-    onion.get('some.thing.here.someObject.nothingHere').should.be.eql(true);
+    so.set('thing.here.someObject', { somethingHere: true });
+    onion.get('thing.here.someObject.somethingHere').should.be.eql(true);
   });
 
   it('should return undefined if nothing found', async () => {
@@ -61,16 +63,24 @@ describe('Multiple layers', () => {
     await onion.addLayer(new Onion.LAYERS.Env({ prefix: 'some_', json: true, }));
     const so = new Onion.LAYERS.SimpleObject();
     await onion.addLayer(so);
-    so.set('some.thing.here.someObject', { nothingHere: true });
-    (onion.get('some.other.thing') === undefined).should.be.ok();
+    so.set('thing.here.someObject', { nothingHere: true });
+    (onion.get('other.thing') === undefined).should.be.ok();
   });
 
   it('should not overlap on revert layers order', async () => {
     const onion = new Onion();
     const so = new Onion.LAYERS.SimpleObject();
     await onion.addLayer(so);
-    await onion.addLayer(new Onion.LAYERS.Env({ prefix: 'some_', json: true, }));
-    so.set('some.thing.here.someObject', { nothingHere: true });
-    onion.get('some.thing.here.someObject.nothingHere').should.be.eql(false);
+    await onion.addLayer(new Onion.LAYERS.SimpleObject({
+      data: {
+        thing: {
+          here: {
+            bool: false,
+          },
+        },
+      },
+    }));
+    so.set('thing.here', { bool: true });
+    onion.get('thing.here.bool').should.be.eql(false);
   });
 });
