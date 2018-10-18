@@ -46,6 +46,8 @@ await onion.addLayer(new Onion.LAYERS.SimpleObject({
 ### Env parser
 It parses environment variables, filtering it by `prefix` and supports JSON-serialized values if `json` option is `true`.
 In addition, possible to change parsing with `parsingSeparator` option.
+
+**Warning**: `prefix` option is just a filter for keys while parsing and it will not appear in the parsing results!
 ```javascript
 await onion.addLayer(new Onion.LAYERS.Env({ prefix: 'some_', json: true, }));
 ```
