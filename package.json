@@ -27,5 +27,9 @@
     "eslint-config-airbnb": "^17.1.0",
     "mocha": "^5.2.0",
     "should": "^13.2.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Smbc1/onion-config.git"
   }
 }
