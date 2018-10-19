@@ -16,7 +16,7 @@
     "microservice"
   ],
   "author": "Dmitrii Mozgovoi <dmitriy.mozgovoy@gmail.com>",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "@strikeentco/get": "^1.0.1",
     "@strikeentco/set": "^1.0.0",
