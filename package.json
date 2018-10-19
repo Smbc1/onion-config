@@ -1,6 +1,6 @@
 {
   "name": "onion-config",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Layer-based config/data manager",
   "main": "lib/onion.js",
   "scripts": {
