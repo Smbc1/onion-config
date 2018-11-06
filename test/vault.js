@@ -20,6 +20,8 @@ const config = {
   }
 };
 
+let token;
+
 describe('Vault KV2 layer', () => {
   before(async () => {
     const vaultBasePath = `${env.VAULT_URL}/v1/${basePath}/data`;
@@ -46,6 +48,18 @@ describe('Vault KV2 layer', () => {
           },
         });
       }
+
+      const { body } = await post(`${env.VAULT_URL}/v1/auth/token/create`, {
+        body: {
+          ttl: '10s',
+          // policies: ['default'],
+        },
+        json: true,
+        headers: {
+          'X-Vault-Token': env.VAULT_TOKEN,
+        },
+      });
+      token = body.auth.client_token;
     } catch (e) {
     console.error(e);
     throw e;
@@ -56,7 +70,7 @@ describe('Vault KV2 layer', () => {
     const onion = new Onion();
     await onion.addLayer(new Onion.LAYERS.Vault({
       url: env.VAULT_URL,
-      token: env.VAULT_TOKEN,
+      token,
       basePath,
     }));
     onion.get().should.be.eql({
@@ -69,9 +83,36 @@ describe('Vault KV2 layer', () => {
     const onion = new Onion();
     await onion.addLayer(new Onion.LAYERS.Vault({
       url: env.VAULT_URL,
-      token: env.VAULT_TOKEN,
+      token,
       basePath,
     }));
     (onion.get('wrong') === undefined).should.be.ok();
+  });
+
+  it('should renew token', async () => {
+    const onion = new Onion();
+    const layer = new Onion.LAYERS.Vault({
+      url: env.VAULT_URL,
+      token,
+      basePath,
+      renewInterval: 1,
+    });
+    await onion.addLayer(layer);
+    await new Promise(res => setTimeout(() => res(), 1500));
+    layer.engine.ttl.should.be.above(3600);
+  });
+
+  it('should renew token using minTtl', async () => {
+    const onion = new Onion();
+    const layer = new Onion.LAYERS.Vault({
+      url: env.VAULT_URL,
+      token,
+      basePath,
+      renewInterval: 1,
+      minTtl: 1800,
+    });
+    await onion.addLayer(layer);
+    await new Promise(res => setTimeout(() => res(), 1500));
+    layer.engine.ttl.should.be.above(1000);
   });
 });

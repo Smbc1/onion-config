@@ -55,12 +55,16 @@ await onion.addLayer(new Onion.LAYERS.Env({ prefix: 'some_', json: true, }));
 ### Hashicorp Vault KV2 storage
 HashiCorp Vault layer, now just with `kv2` engine support.
 Loads all keys in `basePath` and stores it. Useful for micro services. Keys version support in process.
+If `renewInterval` set above 0, then layer will renew token TTL above `minTtl` value periodically (every `renewInterval`
+seconds)
 
 ```javascript
 await onion.addLayer(new Onion.LAYERS.Vault({
   url: env.VAULT_URL,
   token: env.VAULT_TOKEN,
   basePath,
+  renewInterval: 0,
+  minTtl: 7200,
 }));
 ```
 
