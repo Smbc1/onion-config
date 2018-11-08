@@ -70,4 +70,4 @@ await onion.addLayer(new Onion.LAYERS.Vault({
 }));
 ```
 
-### Full API docs is [here](https://github.com/Smbc1/onion-config/blob/master/docs/)
+### Full API docs is [here](https://smbc1.github.io/onion-config/)
