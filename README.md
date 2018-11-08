@@ -2,7 +2,9 @@
 Provides object storage with layers overlapping and dynamic update support.
 
 ## Usage
-`npm install --save onion-config`
+```
+npm install --save onion-config
+```
 
 ```javascript
 const Onion = require('onion-config');
@@ -30,7 +32,7 @@ on explicit build call (`.compile`, `.recompile()`).
 Value `.get()` method uses path notation like `some.thing.here` to access inner parts of stored data. After building
 `.get()` works just with merged `.data` object until next `.recompile()` call.
 
-## Supported config sources
+## Supported config sources (Layers)
 ### Simple object
 In-code storage, not recommended. Just keeps data from given `data` option.
 ```javascript
@@ -68,4 +70,4 @@ await onion.addLayer(new Onion.LAYERS.Vault({
 }));
 ```
 
-### Full API docs is [here](https://github.com/Smbc1/onion-config/blob/master/API.md)
+### Full API docs is [here](https://github.com/Smbc1/onion-config/blob/master/docs/)

@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.5
+* Onion constructor now uses `options`:
+    * .get uses optional argument `separator` in addition to `path` or previously 
+    set `options.getSeparator`
+
 ## 0.2.4
 * KV2 vault layer can renew token periodically
 

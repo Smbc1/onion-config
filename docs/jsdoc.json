@@ -1,0 +1,35 @@
+{
+    "tags": {
+        "allowUnknownTags": true
+    },
+    "source": {
+        "include": [
+            "./lib",
+            "./README.md"
+        ]
+    },
+    "plugins": [
+        "plugins/markdown",
+        "node_modules/jsdoc-class-hierarchy"
+    ],
+    "opts": {
+        "encoding": "utf8",
+        "destination": "./docs",
+        "recurse": true,
+        "verbose": false,
+        "class-hierarchy": { "showList": true }
+    },
+    "markdown": {
+        "parser": "gfm",
+        "hardwrap": true,
+        "idInHeadings": true
+    },
+    "templates": {
+        "cleverLinks": true,
+        "monospaceLinks": false,
+        "default": {
+            "outputSourceFiles": true,
+            "includeDate": true
+        }
+    }
+}

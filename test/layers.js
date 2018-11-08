@@ -58,6 +58,16 @@ describe('Multiple layers', () => {
     onion.get('thing.here.someObject.somethingHere').should.be.eql(true);
   });
 
+  it('should use getSeparator option', async () => {
+    const onion = new Onion({ getSeparator: '|' });
+    await onion.addLayer(new Onion.LAYERS.Env({ prefix: 'some_', json: true, }));
+    const so = new Onion.LAYERS.SimpleObject();
+    await onion.addLayer(so);
+    so.set('thing.here.someObject', { somethingHere: true });
+    onion.get('thing|here|someObject|somethingHere').should.be.eql(true);
+    onion.get('thing:here:someObject:somethingHere', ':').should.be.eql(true);
+  });
+
   it('should return undefined if nothing found', async () => {
     const onion = new Onion();
     await onion.addLayer(new Onion.LAYERS.Env({ prefix: 'some_', json: true, }));
