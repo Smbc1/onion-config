@@ -33,5 +33,6 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Smbc1/onion-config.git"
-  }
+  },
+  "homepage": "https://smbc1.github.io/onion-config/"
 }
