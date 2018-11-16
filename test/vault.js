@@ -76,17 +76,26 @@ describe('Vault KV2 layer', () => {
     onion.get().should.be.eql({
       field1: config.field1,
       field2: config.field2,
+      wrong: {
+        key: {
+          name: {
+            bb: 'ccc',
+          }
+        }
+      }
     });
   });
 
-  it('should ignore keys with "/" in it', async () => {
+  it('should init and load one key if it `key` option defined', async () => {
     const onion = new Onion();
     await onion.addLayer(new Onion.LAYERS.Vault({
       url: env.VAULT_URL,
       token,
       basePath,
+      key: 'wrong/key/name'
     }));
-    (onion.get('wrong') === undefined).should.be.ok();
+    onion.get('wrong.key.name').should.be.eql(config['wrong/key/name']);
+    onion.get().should.not.have.properties(['field1', 'field2']);
   });
 
   it('should renew token', async () => {
