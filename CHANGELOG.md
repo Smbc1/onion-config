@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.3.0
+* Vault KV2 constructor now accepts `key` option to define direct path like `basePath`/`key` 
+to read without discovery in `basePath`
+* KV2 keys with slash (/) support, each `/` will be parsed as nested value, e. g. `some/key/here = 'Hello!'` will
+be presented as ```{ some: { key: { here: 'Hello!'} } }``` and can be accessed as ```.get('some.key.here')```
+or ```.get('some').key.here``` etc.
+
 ## 0.2.5
 * Onion constructor now uses `options`:
     * .get uses optional argument `separator` in addition to `path` or previously 
