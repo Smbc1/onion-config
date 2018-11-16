@@ -94,8 +94,7 @@ describe('Vault KV2 layer', () => {
       basePath,
       key: 'wrong/key/name'
     }));
-    onion.get('wrong.key.name').should.be.eql(config['wrong/key/name']);
-    onion.get().should.not.have.properties(['field1', 'field2']);
+    onion.get().should.be.eql(config['wrong/key/name']);
   });
 
   it('should renew token', async () => {

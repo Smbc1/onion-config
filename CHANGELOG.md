@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.1
+* Vault KV2 option `key` loads value of key **right in layer data**, it means that you can get value as `.get`,
+but, in addition, it merges with root data of other layers!
+
 ## 0.3.0
 * Vault KV2 constructor now accepts `key` option to define direct path like `basePath`/`key` 
 to read without discovery in `basePath`
