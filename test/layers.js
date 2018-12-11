@@ -49,6 +49,35 @@ describe('Multiple layers', () => {
     onion.get().should.be.eql(config);
   });
 
+  it('should use custom merge method', async () => {
+    const onion = new Onion({
+      mergeMethod: (base = {}, patch) => {
+        Object.keys(patch).forEach((k) => {
+          base[k] = 'hello!'
+        });
+        return base;
+      },
+    });
+    const layers = {
+      simpleLayer1: new Onion.LAYERS.SimpleObject({
+        data: {
+          part1: {
+            aNumber: 13,
+          },
+          part2: {
+            bString: 'qwerty'
+          },
+        },
+      }),
+      simpleLayer2: new Onion.LAYERS.SimpleObject({ data: {
+        part1: {}
+      }}),
+    };
+
+    await Promise.all(Object.keys(layers).map(name => onion.addLayer(layers[name])));
+    onion.get().should.be.eql({ part1: 'hello!', part2: 'hello!' });
+  });
+
   it('should set with path and merge it with path access', async () => {
     const onion = new Onion();
     await onion.addLayer(new Onion.LAYERS.Env({ prefix: 'some_', json: true, }));
