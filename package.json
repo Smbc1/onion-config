@@ -23,6 +23,7 @@
     "yarl": "^3.0.0"
   },
   "devDependencies": {
+    "cz-conventional-changelog": "^2.1.0",
     "eslint": "^5.5.0",
     "eslint-config-airbnb": "^17.1.0",
     "jsdoc": "^3.5.5",
@@ -34,5 +35,10 @@
     "type": "git",
     "url": "git+https://github.com/Smbc1/onion-config.git"
   },
-  "homepage": "https://smbc1.github.io/onion-config/"
+  "homepage": "https://smbc1.github.io/onion-config/",
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
 }
