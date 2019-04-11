@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.4
+## 0.4.0
 * Config links, any key with value like @<path.to.other.key> will take value from there.
 Requires option `links: true`. Throws Error if no value found by link, errors can be prevented with option
 `ignoreWrongLinks: true`
