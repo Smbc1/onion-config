@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.4
+* Config links, any key with value like @<path.to.other.key> will take value from there.
+Requires option `links: true`. Throws Error if no value found by link, errors can be prevented with option
+`ignoreWrongLinks: true`
+
 ## 0.3.1
 * Vault KV2 option `key` loads value of key **right in layer data**, it means that you can get value as `.get`,
 but, in addition, it merges with root data of other layers!

@@ -32,6 +32,27 @@ on explicit build call (`.compile`, `.recompile()`).
 Value `.get()` method uses path notation like `some.thing.here` to access inner parts of stored data. After building
 `.get()` works just with merged `.data` object until next `.recompile()` call.
 
+### Links
+To reuse big parts of your configs, you can use links. Just add value with path to other key, prefixed with `@`:
+```javascript
+const onion = new Onion({ links: true });
+await onion.addLayer(new Onion.LAYERS.SimpleObject({
+  data: {
+    resources: {
+      databases: {
+        MySQL: {
+          host: 'localhost',
+        },
+      },
+    },
+    services: {
+      login: '@resources.databases.MySQL',
+    },
+  }
+}));
+onion.get('services.login') // => { 'host': 'localhost' }
+```
+
 ## Supported config sources (Layers)
 ### Simple object
 In-code storage, not recommended. Just keeps data from given `data` option.
@@ -43,6 +64,7 @@ await onion.addLayer(new Onion.LAYERS.SimpleObject({
     },
   },
 }));
+onion.get('foo.bar') // => 12345
 ```
 
 ### Env parser
